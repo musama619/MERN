@@ -1,11 +1,11 @@
-const express = require('express')
-require('dotenv').config()
+const express = require("express");
+require("dotenv").config();
 
 const app = express();
-const user = require('./routes/user')
-
+const game = require("./routes/game");
+const mongoose = require("mongoose");
 //middleware
-app.use(express.json())
+app.use(express.json());
 
 app.use((request, response, next) => {
   console.log(request.path, request.method);
@@ -13,8 +13,16 @@ app.use((request, response, next) => {
 });
 
 //routes
-app.use('/api/user', user)
+app.use("/api/game", game);
 
-app.listen(process.env.PORT, () => {
-  console.log("listening on 4000");
-});
+//connect to db
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log("listening on 4000");
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
