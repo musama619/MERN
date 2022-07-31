@@ -4,11 +4,12 @@ require("dotenv").config();
 const app = express();
 const game = require("./routes/game");
 const mongoose = require("mongoose");
+
 //middleware
 app.use(express.json());
 
 app.use((request, response, next) => {
-  console.log(request.path, request.method);
+  // console.log(request.path, request.method);
   next();
 });
 
